@@ -1,0 +1,7 @@
+{
+  "name": "framework-example",
+  "version": "1.0.0",
+  "dependencies": {
+    "egg-validate": "^2.0.1"
+  }
+}
