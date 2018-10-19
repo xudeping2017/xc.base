@@ -24,7 +24,7 @@ class BaseController extends Controller {
   // 成功统一处理 如果data为null则统一处理为执行失败错误
   success(data) {
     if (!data) {
-      this.error(this.ctx.getError('执行失败!!'));
+      this.error(this.ctx.getError('执行失败!'));
     } else {
       this.ctx.body = {
         code: 0,
