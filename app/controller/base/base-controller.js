@@ -18,7 +18,7 @@ class BaseController extends Controller {
     this.ctx.body = {
       code: 500,
       message: err.message,
-      content,
+      content:content
     };
   }
   // 成功统一处理 如果data为null则统一处理为执行失败错误
@@ -35,8 +35,7 @@ class BaseController extends Controller {
   }
   async result(asyncFunction) {
     try {
-      await asyncFunction;
-      this.success([]);
+      this.success(await asyncFunction);
     } catch (e) {
       this.error(this.ctx.getError(e.message));
     }

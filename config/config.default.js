@@ -18,13 +18,13 @@ const mysqlCon = {
   // 所有数据库配置的默认值
   default: {
     // host
-    host: 'rm-uf6pbta69814wyn43o.mysql.rds.aliyuncs.com',
+    host: '',
     // 端口号
-    port: '3306',
+    port: '',
     // 用户名
-    user: 'dal',
+    user: '',
     // 密码
-    password: 'dalitek@123',
+    password: '',
   },
 
   // 是否加载到 app 上，默认开启
