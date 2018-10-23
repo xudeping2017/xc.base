@@ -51,7 +51,11 @@ module.exports = appInfo => {
     level: 'Debug',
     consoleLevel: 'INFO',
   };
-
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
   // 配置 gzip 中间件的配置
   config.gzip = {
     threshold: 1024, // 小于 1k 的响应体不压缩

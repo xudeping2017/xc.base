@@ -5,6 +5,7 @@
   "dependencies": {
     "egg": "^2.3.0",
     "egg-mysql": "^3.0.0",
+    "egg-validate": "^2.0.2",
     "koa-compress": "^3.0.0",
     "moment": "^2.22.2",
     "uuid": "^3.3.2"
