@@ -35,7 +35,8 @@ class BaseController extends Controller {
   }
   async result(asyncFunction) {
     try {
-      this.success(await asyncFunction);
+      await asyncFunction
+      this.success([]);
     } catch (e) {
       this.error(this.ctx.getError(e.message));
     }
