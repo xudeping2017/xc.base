@@ -141,7 +141,8 @@ class TemplateController extends Controller {
       userid: { type: 'string' },
     })) return;
     const { ctx, service } = this;
-    await this.result(await service.template.create(ctx.request.body));
+    //注意 result 里面没有 await
+    await this.result(service.template.create(ctx.request.body));
   }
 
   async list() {
