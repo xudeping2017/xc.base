@@ -1,12 +1,13 @@
 {
   "name": "xc.base",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "base framework of our egg",
   "dependencies": {
     "egg": "^2.3.0",
     "egg-jwt": "^3.1.4",
     "egg-mysql": "^3.0.0",
     "egg-validate": "^2.0.2",
+    "egg-xc-error": "^1.0.0",
     "egg-xc-redis": "^1.1.4",
     "koa-compress": "^3.0.0",
     "moment": "^2.22.2",
