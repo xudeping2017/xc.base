@@ -8,3 +8,4 @@ exports.logger = {
 };
 
 exports.middleware = [];
+

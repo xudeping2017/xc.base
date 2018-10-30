@@ -33,6 +33,16 @@ const mysqlCon = {
   agent: false,
 };
 
+const myRedis = {
+  clients: {
+    auth: { // instanceName. See below
+      port: 6379, // Redis port
+      host: 'localhost', // Redis host
+      password: 'dalitek@123',
+      db: 1,
+    },
+  },
+};
 
 module.exports = appInfo => {
   const config = {};
@@ -56,9 +66,31 @@ module.exports = appInfo => {
       enable: false,
     },
   };
+  config.redis = myRedis;
   // 配置 gzip 中间件的配置
   config.gzip = {
     threshold: 1024, // 小于 1k 的响应体不压缩
   };
+  config.auth = {
+    enable: true,
+    authWhiteList: [
+    ],
+  };
+  config.jwt = {
+    enable: false,
+    secret: '7971297368612863812',
+  };
+
+  exports.i18n = {
+    // 默认语言，默认 "en_US"
+    defaultLocale: 'zh-CN',
+    // URL 参数，默认 "locale"
+    queryField: 'locale',
+    // Cookie 记录的 key, 默认："locale"
+    cookieField: 'locale',
+    // Cookie 默认 `1y` 一年后过期， 如果设置为 Number，则单位为 ms
+    cookieMaxAge: '1y',
+  };
+
   return config;
 };

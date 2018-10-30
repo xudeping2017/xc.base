@@ -31,10 +31,10 @@ describe(__filename, () => {
       .get('/tranM_doMqueryConn')
       .expect(200);
   });
-  it('doQueryError', async () => {
-    return app.httpRequest()
-      .get('/doQueryError')
-      .expect(200);
-  });
+  // it('doQueryError', async () => {
+  //   return app.httpRequest()
+  //     .get('/doQueryError')
+  //     .expect(200);
+  // });
 });
 

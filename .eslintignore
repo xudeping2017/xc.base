@@ -1,3 +1,4 @@
 /test/fixtures/example/node_modules
 /coverage
 /node_modules
+/app/middleware

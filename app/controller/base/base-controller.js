@@ -8,23 +8,24 @@ class BaseController extends Controller {
   }
   // 错误统一处理 status 为200
   error(err) {
-    this.ctx.body = {
-      code: 500,
-      message: err.message,
-    };
+    if (err instanceof this.app.xcError) {
+      throw err;
+    } else {
+      throw (new this.app.serverError(err.message));
+    }
   }
 
   errorContent(err, content) {
-    this.ctx.body = {
-      code: 500,
-      message: err.message,
-      content:content
-    };
+    if (err instanceof this.app.xcError) {
+      throw err;
+    } else {
+      throw (new this.app.serverError(err.message, content));
+    }
   }
   // 成功统一处理 如果data为null则统一处理为执行失败错误
   success(data) {
     if (!data) {
-      this.error(this.ctx.getError('执行失败!'));
+      throw (new this.app.serverError('执行失败!'));
     } else {
       this.ctx.body = {
         code: 0,
@@ -35,10 +36,14 @@ class BaseController extends Controller {
   }
   async result(asyncFunction) {
     try {
-      await asyncFunction
+      await asyncFunction;
       this.success([]);
-    } catch (e) {
-      this.error(this.ctx.getError(e.message));
+    } catch (err) {
+      if (err instanceof this.app.xcError) {
+        throw err;
+      } else {
+        throw (new this.app.serverError(err.message));
+      }
     }
   }
 
@@ -49,11 +54,8 @@ class BaseController extends Controller {
       } else {
         this.ctx.validate(info);
       }
-      return true;
     } catch (err) {
-      this.ctx.logger.error(err);
-      this.errorContent(err, err.errors);
-      return false;
+      throw new this.app.validateError(undefined, err.errors);
     }
   }
 }

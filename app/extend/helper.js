@@ -23,7 +23,7 @@ module.exports = {
       } catch (error) {
         service.logger.error(`${_sql}-->Error!`);
         service.logger.error(error);
-        throw error;
+        throw new this.app.dbError(error.message);
       }
     },
     // 获取事物
@@ -44,7 +44,7 @@ module.exports = {
         service.logger.info(`${_sql}-->Success!`);
       } catch (error) {
         service.logger.error(`${_sql}-->Error!`);
-        throw error;
+        throw new this.app.dbError(error.message);
       }
       return result;
     },
