@@ -1,6 +1,6 @@
 {
   "name": "xc.base",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "base framework of our egg",
   "dependencies": {
     "egg": "^2.3.0",
