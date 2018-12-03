@@ -66,6 +66,10 @@ module.exports = appInfo => {
       enable: false,
     },
   };
+  config.cors = {
+    origin:'*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+  };
   config.redis = myRedis;
   // 配置 gzip 中间件的配置
   config.gzip = {
