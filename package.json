@@ -1,9 +1,10 @@
 {
   "name": "xc.base",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "base framework of our egg",
   "dependencies": {
     "egg": "^2.3.0",
+    "egg-cors": "^2.1.2",
     "egg-jwt": "^3.1.4",
     "egg-mysql": "^3.0.0",
     "egg-validate": "^2.0.2",
