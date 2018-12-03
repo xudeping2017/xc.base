@@ -23,7 +23,7 @@ module.exports = {
       } catch (error) {
         service.logger.error(`${_sql}-->Error!`);
         service.logger.error(error);
-        throw new this.app.dbError(error.message);
+        throw new service.app.dbError(error.message);
       }
     },
     // 获取事物
@@ -36,6 +36,15 @@ module.exports = {
         return null;
       }
     },
+    // 获取事物 抛出Error
+    async tranError(service, cb) {
+      try {
+        return await service.app.mysql.get('db1').beginTransactionScope(cb, service.ctx);
+      } catch (error) {
+        service.ctx.logger.error('rollback!');
+        throw new service.app.dbError().for(error);
+      }
+    },
     // 事物中执行sql
     async doQueryTran(_sql, conn, service) {
       let result = null;
@@ -44,7 +53,7 @@ module.exports = {
         service.logger.info(`${_sql}-->Success!`);
       } catch (error) {
         service.logger.error(`${_sql}-->Error!`);
-        throw new this.app.dbError(error.message);
+        throw new service.app.dbError(error.message);
       }
       return result;
     },
@@ -60,6 +69,17 @@ module.exports = {
         return null;
       }
     },
+      // 多数据源执行sql   抛出错误
+      async doQueryConnError(_sql,conn, service) {
+        try {
+          const result = await conn.query(_sql);
+          service.logger.info(`${_sql}-->Success!`);
+          return result;
+        } catch (error) {
+          service.logger.error(`${_sql}-->Error!`);
+          throw new service.app.dbError().for(error);
+        }
+      },
     // 多数据源获取事物
     async tranConn(service, conn, cb) {
       try {
@@ -70,6 +90,15 @@ module.exports = {
         return null;
       }
     },
+    // 多数据源获取事物 抛出Error
+    async tranConnError(service, conn, cb) {
+    try {
+      return await conn.beginTransactionScope(cb, service.ctx);
+    } catch (error) {
+      service.ctx.logger.error('rollback!');
+      throw new service.app.dbError().for(error);
+    }
+  },
   },
   time: {
     // 获取当前时间格式 YYYY-MM-DD HH:mm:ss.SSS

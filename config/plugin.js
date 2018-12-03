@@ -25,3 +25,7 @@ exports.xcAuth = {
   enable: true,
   package: 'egg-xc-auth',
 };
+exports.jwt = {
+  enable : true,
+  package : 'egg-jwt'
+}

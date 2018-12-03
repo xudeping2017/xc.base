@@ -17,7 +17,7 @@ module.exports = (options, app) => {
     } catch (error) {
       ctx.logger.error(error);
       ctx.status = 200;
-      const body = {};
+      let body = {};
       if (error.constructor.name === 'UnauthorizedError') {
         error = new app.jwtError();
       }
@@ -46,11 +46,30 @@ module.exports = (options, app) => {
         break;
     }
     // 上报请求时间
-    if (ctx.body.code !== 0) {
-      ctx.logger.error('requestInfo --> End Failed!', `requestTime=${ctx.response.header['x-readtime'] || 0}\n FailedInfo:\n${JSON.stringify(2, 2, ctx.body)}`);
-    } else {
-      ctx.logger.info('requestInfo --> End Success!', `requestTime=${ctx.response.header['x-readtime']}`);
+    if(ctx.path.indexOf('.html')===-1 && ctx.path.indexOf('.js')===-1 && ctx.path.indexOf('.css')===-1  && ctx.path.indexOf('.ico')===-1){
+      try{
+        if(typeof ctx.body === 'string'){
+          const body = JSON.parse(ctx.body);
+          if(body.code === 0){
+            ctx.logger.info('requestInfo --> End Success!', `requestTime=${ctx.response.header['x-readtime']}`);
+          }else{
+            ctx.logger.error('requestInfo --> End Failed!', `requestTime=${ctx.response.header['x-readtime'] || 0}\n FailedInfo:\n${JSON.stringify(body,2, 2 )}`);
+          }
+        }else{
+          const body = ctx.body;
+          if(body && body.code === 0){
+            ctx.logger.info('requestInfo --> End Success!', `requestTime=${ctx.response.header['x-readtime']}`);
+          }else{
+            ctx.logger.error('requestInfo --> End Failed!', `requestTime=${ctx.response.header['x-readtime'] || 0}\n FailedInfo:\n${JSON.stringify(body,2, 2 )}`);
+          }
+        }
+       
+      }catch(error){
+        ctx.logger.error('requestInfo --> End Failed!', `requestTime=${ctx.response.header['x-readtime'] || 0}\n FailedInfo:\n${ctx.body}`);
+      }
+   
     }
+  
   };
 
 };
