@@ -1,7 +1,6 @@
 'use strict';
 const assert = require('assert');
 module.exports = async app => {
-  await require('./lib/initApi')(app)
   // 统一处理body传参解析掉header和body 如果有auth中间件放在 auth中间件之后
   const authIndex = app.config.coreMiddleware.indexOf('auth');
   if (authIndex >= 0) {
@@ -16,7 +15,7 @@ module.exports = async app => {
   } else {
     app.config.coreMiddleware.unshift('formatCookie');
   }
-
+  app.config.coreMiddleware.unshift('koaStatic');
   app.config.coreMiddleware.unshift('gzip');
 
 
@@ -26,4 +25,5 @@ module.exports = async app => {
   assert(index >= 0, 'bodyParser 中间件必须存在');
   // 将report插件添加到bodyParser插件之后
   app.config.coreMiddleware.splice(index + 1, 0, 'report');
+  await require('./lib/initApi')(app)
 };

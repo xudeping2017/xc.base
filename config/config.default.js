@@ -1,6 +1,5 @@
 'use strict';
-
-
+const path = require('path')
 // mysql 数据库配置
 const mysqlCon = {
   clients: {
@@ -46,7 +45,6 @@ const myRedis = {
 
 module.exports = appInfo => {
   const config = {};
-
   /**
    * some description
    * @member Config#test
@@ -56,7 +54,6 @@ module.exports = appInfo => {
     key: appInfo.name + '_123456',
   };
   config.mysql = mysqlCon;
-
   config.logger = {
     level: 'Debug',
     consoleLevel: 'INFO',
@@ -82,6 +79,9 @@ module.exports = appInfo => {
     ],
     whiteList:[],
     ignore(ctx){
+      if(ctx.path === '/'){
+          return true
+      }
       const obj = ctx.app.config.auth
       obj.whiteList.push.apply(obj.whiteList,obj.default)
       const whiteList = obj.whiteList
@@ -103,6 +103,9 @@ module.exports = appInfo => {
     ],
     whiteList:[],
     ignore(ctx){
+      if(ctx.path === '/'){
+        return true
+    }
       const obj = ctx.app.config.jwt
       obj.whiteList.push.apply(obj.whiteList,obj.default)
       const whiteList = obj.whiteList
@@ -117,7 +120,7 @@ module.exports = appInfo => {
     } 
   };
 
-  exports.i18n = {
+  config.i18n = {
     // 默认语言，默认 "en_US"
     defaultLocale: 'zh-CN',
     // URL 参数，默认 "locale"
@@ -127,6 +130,8 @@ module.exports = appInfo => {
     // Cookie 默认 `1y` 一年后过期， 如果设置为 Number，则单位为 ms
     cookieMaxAge: '1y',
   };
-
+  config.koaStatic = {
+    path : path.join(__dirname,`../../../app/public`)
+  }
   return config;
 };
